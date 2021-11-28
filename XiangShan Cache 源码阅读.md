@@ -28,7 +28,7 @@
 
 ​	“雁栖湖”架构是一个11级流水、6发射、4个访存部件的乱序处理器核，微架构图如下：
 
-<img src="D:\学习\大四上\面向对象\XiangShan\香山-雁栖湖架构.jpg" alt="香山-雁栖湖架构" style="zoom:80%;" />
+<img src="/香山-雁栖湖架构.jpg" alt="香山-雁栖湖架构" style="zoom:80%;" />
 
 ​	可以分为前端、后端、访存三个主要功能模块。前端包括取指、分支预测、指令缓冲等单元，顺序取指。后端包括译码、重命名、重排序缓冲、保留站、整型/浮点寄存器堆、整型/浮点运算单元。访存子系统按照`load`和`store`分割开，包括两条 `load` 流水线和两条 `store` 流水线，以及独立的 `Load Queue`和 `Store  Queue`，`Store Buffer`等，缓存包括`L1Cache(ICache、DCache)`、`L2Cache`、`TLB`和预取器等模块，在访存部件内。我主要选择`L1Cache`进行阅读，L1缓存包括指令缓存 ICache 和数据缓存 DCache，二者结构相似只是 DCache 的访问模式比 ICache 更加丰富，指令是只读不可写的且位宽固定，而数据可读可写且有字节访问、字访问和行访问等形式。
 
@@ -220,7 +220,7 @@ class LoadPipe(implicit p: Parameters) extends DCacheModule {
 
 ​	在第二节中我们对`XiangShan DCache`的功能进行了需求建模和流程分析，找到了一部分承担主要任务的类，并探索了一个load/store请求被响应的具体流程，本节我们来继续分析XiangShan Cache还涉及哪些重要的类以及类间关系。
 
-![XiangShan DCache类图](D:\学习\大四上\面向对象\大作业\XiangShan DCache类图.jpg)
+![XiangShan DCache类图](/XiangShan DCache类图.jpg)
 
 ​	上图体现了我们在第二节中分析过的一些类以及相关类之间的关系。类与类之间主要用到的关系有继承、实现、关联和组合关系：
 
