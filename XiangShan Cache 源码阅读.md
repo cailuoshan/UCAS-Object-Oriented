@@ -212,7 +212,7 @@ class LoadPipe(implicit p: Parameters) extends DCacheModule {
 
 ​	在第二节中我们对 XiangShan DCache 的功能进行了需求建模和流程分析，找到了一部分承担主要任务的类，并探索了一个Load/Store请求被响应的具体流程，本节我们来继续分析 XiangShan Cache 还涉及哪些重要的类以及类间关系。
 
-![XiangShan DCache类图](/XiangShan DCache类图.png)
+![XiangShan DCache类图](/XiangShan DCache类图.jpg)
 
 ​	上图体现了我们在第二节中分析过的一些类以及相关类之间的关系。类间关系主要有继承、实现、关联和组合。
 
