@@ -18,7 +18,7 @@
 
 ​	香山“雁栖湖”架构是一个具有11级流水、6发射、4个访存部件的乱序处理器核，微架构图如下所示：
 
-<img src="D:\学习\大四上\面向对象\XiangShan\香山-雁栖湖架构.jpg" alt="香山-雁栖湖架构" style="zoom:80%;" />
+<img src="/香山-雁栖湖架构.jpg" alt="香山-雁栖湖架构" style="zoom:80%;" />
 
 ​	它可以分为前端、后端、访存三个主要功能模块。前端包括取指、分支预测、指令缓冲等单元，顺序取指。后端包括译码、重命名、重排序缓冲、保留站、整型/浮点寄存器堆、整型/浮点运算单元。访存子系统按照`load`和`store`分割开，包括两条 `load` 流水线和两条 `store` 流水线，以及独立的 `Load Queue`和 `Store Queue`，`Store Buffer`等，缓存包括`L1Cache(ICache、DCache)`、`L2Cache`、`TLB`和预取器等模块，在访存部件内。我在本次大作业中选择了`L1Cache`进行阅读，L1缓存包括指令缓存 `ICache` 和数据缓存 `DCache`，二者结构相似只是 `DCache` 的访问模式比 `ICache` 更加丰富，指令的访问是只读不可写且位宽固定，而数据的访问可读可写且有字节访问、字访问和行访问等多种形式，因此在下文中我们主要以 `DCache` 为例进行分析。
 
@@ -204,7 +204,7 @@ class LoadPipe(implicit p: Parameters) extends DCacheModule {
 
 ​	可以看出，写请求首先从IO接口进入一个`storeReplayQueue`，出队列后进入`mainPipe`。`mainPipe`拥有四级流水线，我们在此就不再展示其代码，其主要功能为处理`Refill`，`Probe`，`Store/AMO`请求。对于`Store`请求，`mainPipe`在`stage0`发出请求读取`Meta`，`stage1`根据`tag`判断是否命中并发出请求读取`Data`，`stage2`根据请求的`mask`选中`data`的写入部分并准备好命中时`Meta`和`Data`的新内容，`stage3`如果 `hit` 则将新的内容写入`dataArray`和`metaArray`，如果`miss`，则发送`miss`请求到`MissQueue`。接下来就和读请求`miss`一样，从下一级读取`block`，写入新块，替换和写回旧块。这也就是cache中常用的写回+写分配的策略，总结一下，DCache的主要部件以及处理流程图可以表示如下：
 
-![DCache_请求处理流程](D:\学习\大四上\面向对象\大作业\DCache_请求处理流程.jpg)
+![DCache_请求处理流程](/DCache_请求处理流程.jpg)
 
 
 
@@ -212,7 +212,7 @@ class LoadPipe(implicit p: Parameters) extends DCacheModule {
 
 ​	在第二节中我们对 XiangShan DCache 的功能进行了需求建模和流程分析，找到了一部分承担主要任务的类，并探索了一个Load/Store请求被响应的具体流程，本节我们来继续分析 XiangShan Cache 还涉及哪些重要的类以及类间关系。
 
-![XiangShan DCache类图](D:\学习\大四上\面向对象\大作业\XiangShan DCache类图.png)
+![XiangShan DCache类图](/XiangShan DCache类图.png)
 
 ​	上图体现了我们在第二节中分析过的一些类以及相关类之间的关系。类间关系主要有继承、实现、关联和组合。
 
@@ -278,7 +278,7 @@ endmodule
 
 ​	但是，使用Chisel进行硬件设计也有缺点。因为scala程序经过编译输出的还是verilog代码，编译后的代码并不具有可读性，但是如果按照传统的仿真验证方法通过看波形定位bug，则仍然需要对应verilog代码中的信号名，从下图可以看出，XiangShan编译后输出的verilog变量名又长又臭，由波形定位到源代码中的bug变得更加困难。因此，XiangShan在设计过程中也使用和开发了Difftest，Checkpoint，仿真快照等一系列验证工具来帮助debug。
 
-![Xiangshan_编译后的verilog代码](D:\学习\大四上\面向对象\大作业\Xiangshan_编译后的verilog代码.jpg)
+![Xiangshan_编译后的verilog代码](/Xiangshan_编译后的verilog代码.jpg)
 
 
 
